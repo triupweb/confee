@@ -2,6 +2,7 @@
 
 namespace Confee\Units;
 
+use Confee\Units\Core\Http\Middleware\AlwaysExpectsJson;
 use Illuminate\Foundation\Http\Kernel;
 
 class HttpKernel extends Kernel
@@ -18,6 +19,7 @@ class HttpKernel extends Kernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \Confee\Units\Core\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        AlwaysExpectsJson::class,
     ];
 
     /**
