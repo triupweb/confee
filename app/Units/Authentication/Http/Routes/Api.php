@@ -4,7 +4,6 @@
 namespace Confee\Units\Authentication\Http\Routes;
 
 
-use Confee\Domains\Users\User;
 use Confee\Support\Http\Routing\RouteFile;
 use Illuminate\Http\Request;
 
@@ -19,6 +18,7 @@ class Api extends RouteFile
         $this->v1Routes();
         $this->defaultRoutes();
         $this->authenticationRoutes();
+        $this->passwordRoutes();
     }
 
     protected function defaultRoutes()
@@ -49,5 +49,12 @@ class Api extends RouteFile
     protected function authenticationRoutes()
     {
        $this->router->post('login', 'LoginController@login');
+    }
+
+    protected function passwordRoutes()
+    {
+        // Password Reset Routes...
+        $this->router->post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+        $this->router->post('password/reset', 'ResetPasswordController@reset')->name('password.reset');
     }
 }
