@@ -24,6 +24,7 @@ class Api extends RouteFile
     protected function defaultRoutes()
     {
         $this->userRoutes();
+        $this->signUpRoutes();
     }
 
     protected function v1Routes()
@@ -36,9 +37,13 @@ class Api extends RouteFile
     protected function userRoutes()
     {
         $this->router->get('/user', function (Request $request) {
-           // return $request->user();
-            return User::all()->toJson();
+            return $request->user();
         })->middleware('auth:api');
+    }
+
+    protected function signUpRoutes()
+    {
+        $this->router->post('/signup', 'RegisterController@register');
     }
 
     protected function authenticationRoutes()
