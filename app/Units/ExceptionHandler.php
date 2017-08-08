@@ -5,6 +5,8 @@ namespace Confee\Units;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler;
+use Illuminate\Http\Response;
+use Symfony\Component\Debug\Exception\FlattenException;
 
 class ExceptionHandler extends Handler
 {
@@ -61,5 +63,23 @@ class ExceptionHandler extends Handler
         }
 
         return redirect()->guest(route('login'));
+    }
+
+    /**
+     * Create a Symfony response for the given exception.
+     *
+     * @param  \Exception  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function convertExceptionToResponse(Exception $e)
+    {
+        $e = FlattenException::create($e);
+        if(config('app.debug')) {
+            $message = $e->getMessage();
+        } else {
+            $message = Response::$statusTexts[$e->getStatusCode()];
+        }
+
+        return response()->json(["error" => $message], $e->getStatusCode());
     }
 }
